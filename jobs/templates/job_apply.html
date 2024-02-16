@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Job Application{% endblock %}
+{% block content %} 
+{% load static %} 
+<div class="container">
+  <div class="row justify-content-center">
+      <div class="col-md-6">
+          <div class="card mt-5">
+              <div class="card-body">
+                  <h5 class="card-title mb-4">Apply for {{ job.job_title }}</h5>
+                  <p>Applying as {{ user.first_name }} {{ user.last_name }}</p>
+                  <p>Email: {{ user.email }}</p>
+                  <p>{{ job.description }}</p>
+                  <div class="form-group mb-3">
+                   <form method="post" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      {{ form.as_p }} 
+                      <button type="submit" class="btn btn-primary btn-block">Apply</button>
+                  </form>
+              </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

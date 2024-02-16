@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Job Applications{% endblock %}
+{% block content %} 
+{% load static %}  
+<div class="container mt-5">
+    <div class="container mt-5">
+        {% if user.is_authenticated %}
+            <h5> {{ user.usertype.get_user_type_display }}</h5>
+        {% endif %}        
+        <h2>Job Applications</h2>
+        <ul class="list-group">
+        {% for application in applications %}
+        <a href="#" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ application.job.job_title }}</h5>
+            </div>
+            <p class="mb-1">{{ application.job.company_name }}</p>
+            <small>{{ application.job.location }}</small>
+        
+            <p class="mb-1">{{ application.job.description|truncatewords:10 }}</p> 
+            <p class="mb-1">{{ application.resume }}</p> 
+            <p class="mb-1">{{ application.experience }}</p> 
+        </a>
+    {% empty %}
+        <p>No applications found.</p>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

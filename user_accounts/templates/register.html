@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Registration Page{% endblock %}
+{% block content %} 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Register</h5>
+                    <div class="form-group mb-3">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <p>Already have an account? <a href="{% url 'user_accounts:login' %}">Login</a></p>
+                        <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Job Details{% endblock %}
+{% block content %} 
+{% load static %}  
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">{{ job.job_title }}</h1>
+            <h2 class="h5 card-subtitle mb-2 text-muted">{{ job.company_name }}</h2>
+            <p class="card-text">{{ job.location }}</p>
+            <p class="card-text">{{ job.description }}</p> 
+            <a href="{% url 'job_apply' job.pk %}" class="btn btn-primary">Apply</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

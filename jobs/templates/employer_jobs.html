@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Employer Jobs{% endblock %}
+{% block content %} 
+{% load static %}  
+<div class="container mt-5">
+    <div class="container mt-5">
+        {% if user.is_authenticated %}
+            <h5>{{ user.usertype.get_user_type_display }}</h5>
+        {% endif %}        
+        <h2>Job Listings</h2>
+        <a href="{% url 'add_job' %}" class="btn btn-primary mb-3">Add Job</a>
+        <ul class="list-group">
+        {% for job in jobs %}
+        <li class="list-group-item">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ job.job_title }}</h5>
+                <div>
+                    <a href="{% url 'edit_job' job.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+                    <a href="{% url 'delete_job' job.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </div>
+            <p class="mb-1">{{ job.company_name }}</p>
+            <small>{{ job.location }}</small>
+            <p class="mb-1">{{ job.description|truncatewords:10 }}</p> 
+        </li>
+        {% endfor %}
+    </ul>
+</div> 
+ 
+{% endblock %}

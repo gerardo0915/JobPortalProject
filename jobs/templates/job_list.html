@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Job List{% endblock %}
+{% block content %} 
+{% load static %}  
+<div class="container mt-5">
+    <div class="container mt-5">
+        {% if user.is_authenticated %}
+            <h5>{{ user.usertype.get_user_type_display }}</h5>
+        {% endif %}        
+        <h2>Job Listings</h2>
+        <ul class="list-group">
+        {% for job in jobs %}
+        <a href="{% url 'job_detail' job.pk %}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ job.job_title }}</h5>
+            </div>
+            <p class="mb-1">{{ job.company_name }}</p>
+            <small>{{ job.location }}</small>
+            <p class="mb-1">{{ job.description|truncatewords:10 }}</p> 
+        </a>
+        {% endfor %} 
+    </ul>
+</div> 
+{% endblock %}
