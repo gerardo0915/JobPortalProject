@@ -9,11 +9,11 @@
                 <div class="card-body">
                     <h5 class="card-title mb-4">Are you sure you want to delete this job listing?</h5>
                     <div class="form-group mb-3">
-                    <form method="post">
+                    <form method="post" class="d-inline-block">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-block">Delete</button>
                     </form>
-                    <a href="{% url 'employer_jobs' %}" class="btn btn-secondary btn-block">Cancel</a>
+                    <a href="{% url 'employer_jobs' %}" class="btn btn-secondary btn-block d-inline-block">Cancel</a>
                 </div>
                 </div>
             </div>

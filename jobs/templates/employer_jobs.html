@@ -2,16 +2,15 @@
 {% block title %}Employer Jobs{% endblock %}
 {% block content %} 
 {% load static %}  
-<div class="container mt-5">
-    <div class="container mt-5">
-        {% if user.is_authenticated %}
-            <h5>{{ user.usertype.get_user_type_display }}</h5>
-        {% endif %}        
-        <h2>Job Listings</h2>
-        <a href="{% url 'add_job' %}" class="btn btn-primary mb-3">Add Job</a>
-        <ul class="list-group">
+<div class="container mt-5"> 
+      
+    <div class="mb-3 w-75 mx-auto"> 
+         <h2 class="mb-3">Your Job Listings</h2>
+        <a href="{% url 'add_job' %}" class="btn btn-primary ">Add Job</a>
+    </div>
+    <ul class="list-group mt-3 w-75 mx-auto">
         {% for job in jobs %}
-        <li class="list-group-item">
+        <li class="list-group-item list-group-item-action rounded shadow mb-3 small">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ job.job_title }}</h5>
                 <div>
@@ -25,6 +24,18 @@
         </li>
         {% endfor %}
     </ul>
+    <div class="pagination w-75 mx-auto mb-5">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-secondary mr-2" href="?page=1">First</a>
+            <a class="btn btn-secondary mr-2" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+    
+        <span class="current-page mr-2">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    
+        {% if page_obj.has_next %}
+            <a class="btn btn-secondary mr-2" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-secondary" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    </div>
 </div> 
- 
 {% endblock %}
