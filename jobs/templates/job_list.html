@@ -2,23 +2,51 @@
 {% block title %}Job List{% endblock %}
 {% block content %} 
 {% load static %}  
-<div class="container mt-5">
-    <div class="container mt-5">
-        {% if user.is_authenticated %}
-            <h5>{{ user.usertype.get_user_type_display }}</h5>
-        {% endif %}        
-        <h2>Job Listings</h2>
-        <ul class="list-group">
-        {% for job in jobs %}
-        <a href="{% url 'job_detail' job.pk %}" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{ job.job_title }}</h5>
+<div class="container mt-5">        
+    <div class="w-75 mx-auto"> 
+        <h2 class="mb-3">Available Jobs</h2>
+        <form method="GET" class="row">
+            <div class="form-group col-md-3 mb-3">
+                <input class="form-control" type="search" name="job_title" placeholder="Job Title" aria-label="Job Title">
             </div>
-            <p class="mb-1">{{ job.company_name }}</p>
-            <small>{{ job.location }}</small>
-            <p class="mb-1">{{ job.description|truncatewords:10 }}</p> 
-        </a>
-        {% endfor %} 
-    </ul>
-</div> 
+            <div class="form-group col-md-3">
+                <input class="form-control" type="search" name="location" placeholder="Location" aria-label="Location">
+            </div>
+            <div class="form-group col-md-3">
+                <input class="form-control" type="search" name="company" placeholder="Company" aria-label="Company">
+            </div>
+            <div class="form-group col-md-3">
+                <button class="btn btn-secondary" type="submit">Filter</button>
+            </div>
+        </form>
+        <ul class="list-group mt-3">
+            {% for job in jobs %}
+            <li class="list-group-item list-group-item-action rounded shadow mb-3 small">
+                <a href="{% url 'job_detail' job.pk %}" class="text-decoration-none text-dark d-block">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ job.job_title }}</h5>
+                        <small class="text-muted">View details &#8594;</small>
+                    </div>
+                    <p class="mb-1">{{ job.company_name }}</p>
+                    <small>{{ job.location }}</small>
+                    <p class="mb-1">{{ job.description|truncatewords:10 }}</p> 
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="pagination w-75 mx-auto mb-5">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-secondary mr-2" href="?page=1">First</a>
+            <a class="btn btn-secondary mr-2" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+    
+        <span class="current-page mr-2">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    
+        {% if page_obj.has_next %}
+            <a class="btn btn-secondary mr-2" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-secondary" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

@@ -13,7 +13,13 @@
     <header>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="container">
-              <a class="navbar-brand" href="#">Job Portal</a>
+              {% if not user.is_authenticated %}
+                 <a class="navbar-brand" href="{% url 'job_list' %}">Job Portal</a>
+              {% elif user.usertype.user_type == 'employer' %}
+                 <a class="navbar-brand" href="{% url 'employer_jobs' %}">Job Portal</a>
+              {% else %}
+                 <a class="navbar-brand" href="{% url 'job_list' %}">Job Portal</a>
+              {% endif %}
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
               </button>
@@ -57,7 +63,7 @@
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
-          <p class="text-center">Job Portal Web Application 2024</p>
+          <p class="text-center">&copy; 2024 Gerardo Nieves</p>
       </div>
   </footer>
 

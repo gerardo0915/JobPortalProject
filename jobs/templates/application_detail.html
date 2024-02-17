@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Application Details{% endblock %}
+{% block content %} 
+{% load static %} 
+<div class="container mt-5">
+    <div class="w-75 mx-auto"> 
+        <h2 class="mb-3">Application Details</h2>
+        <h4>Job Position: {{ application.job.job_title }}</h4>
+        <p class="lead">{{ application.job.company_name }}</p>
+        <p><strong>Location:</strong> {{ application.job.location }}</p>
+        <p><strong>Description:</strong> {{ application.job.description }}</p> 
+        <p><strong>Applicant:</strong> {{ application.user.first_name }} {{ application.user.last_name }}</p>
+        <p><strong>Email:</strong> {{ application.user.email }}</p>
+        <p><strong>Resume:</strong> <a href="{{ application.resume.url }}" target="_blank">View Resume</a></p> 
+        <p><strong>Additional Comments:</strong> {{ application.additional_comments }}</p> 
+        <p><strong>Submitted Date:</strong> {{ application.applied_date }}</p> 
+        <a href="{% url 'applications' %}" class="btn btn-secondary mt-3">&larr; Back to Applications</a>
+        <!-- If user is a job applicant, show the withdraw application button -->
+        {% if user.usertype.user_type == 'job_applicant'%}
+            {% csrf_token %}
+            <a href="{% url 'withdraw_application' application.pk%}"  class="btn btn-danger mt-3" >Withdraw Applicaiton</a>
+        {% endif %}
+        <!-- If user is an employer, show the schedule interview button -->
+        {% if user.usertype.user_type == 'employer' %}
+            <a href="mailto:{{ application.user.email }}?subject=Interview%20Invitation&body=Dear%20{{ application.user.first_name }},%0D%0A%0D%0AWe%20would%20like%20to%20invite%20you%20for%20an%20interview.%0D%0A%0D%0APlease%20let%20us%20know%20when%20you%20are%20available.%0D%0A%0D%0AThank%20you."  class="btn btn-primary mt-3">Schedule Interview</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
