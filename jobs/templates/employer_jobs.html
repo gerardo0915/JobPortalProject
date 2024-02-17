@@ -21,6 +21,11 @@
             <p class="mb-1">{{ job.company_name }}</p>
             <small>{{ job.location }}</small>
             <p class="mb-1">{{ job.description|truncatewords:10 }}</p> 
+            <a href="{% url 'job_detail' job.pk %}" class="text-decoration-none text-dark d-block">
+                <div class="d-flex w-100 justify-content-end"> 
+                    <small class="text-muted">View details &#8594;</small>
+                </div> 
+            </a>
         </li>
         {% endfor %}
     </ul>
