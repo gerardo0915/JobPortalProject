@@ -15,7 +15,7 @@
         {% else %}
             <a href="{% url 'job_list' %}" class="btn btn-secondary mt-3">&larr; Back to Jobs</a>
         {% endif %}
-        {% if user.usertype.user_type == 'job_applicant' %}
+        {% if not request.user.is_authenticated or user.usertype.user_type == 'job_applicant' %}
             <a href="{% url 'job_apply' job.pk %}" class="btn btn-primary mt-3">Apply</a>
          {% endif %}
     </div>
