@@ -1,9 +1,9 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import UserType 
-from .forms import RegistrationForm , CustomAuthenticationForm
+from .forms import RegistrationForm, CustomAuthenticationForm
 
 def login_view(request):
     # Handle user login
@@ -12,7 +12,11 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('job_list')  
+            user_type = UserType.objects.get(user=user).user_type
+            if user_type == 'employer':
+                return redirect('employer_jobs')
+            else:
+                return redirect('job_list')  
     else:
         form = CustomAuthenticationForm()
     return render(request, 'login.html', {'form': form})

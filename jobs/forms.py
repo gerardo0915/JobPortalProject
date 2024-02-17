@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from .models import Job, JobApplication
 
+# Job creation form
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
@@ -15,14 +16,15 @@ class JobForm(forms.ModelForm):
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'deadline': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
-        
+
+# Job application form 
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        fields = ['resume', 'experience']
+        fields = ['resume', 'additional_comments']
         widgets = {
             'resume': forms.FileInput(attrs={'class': 'form-control'}),
-            'experience': forms.Textarea(attrs={'class': 'form-control'}),
+            'additional_comments': forms.Textarea(attrs={'class': 'form-control'}),
         }
         
 

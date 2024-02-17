@@ -5,13 +5,28 @@ from user_accounts.models import UserType
 from .forms import JobApplicationForm , JobForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy 
 
 class JobListView(ListView):
     # Show list of all jobs
     model = Job
     template_name = 'job_list.html'
     context_object_name = 'jobs'
+    paginate_by = 5
+    ordering = ['job_title'] 
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        job_title = self.request.GET.get('job_title')
+        if job_title:
+            queryset = queryset.filter(job_title__icontains=job_title)
+        location = self.request.GET.get('location')
+        if location:
+            queryset = queryset.filter(location__icontains=location)
+        company = self.request.GET.get('company')
+        if company:
+            queryset = queryset.filter(company_name__icontains=company)
+        return queryset    
 
 class JobDetailView(DetailView):
     # Show details of a specific job
@@ -24,6 +39,8 @@ class EmployerJobsView(ListView):
     model = Job
     template_name = 'employer_jobs.html'
     context_object_name = 'jobs'
+    paginate_by = 5
+    ordering = ['job_title'] 
 
     def get_queryset(self): 
         return Job.objects.filter(user=self.request.user)
@@ -44,7 +61,7 @@ class JobCreateView(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-
+ 
 class JobUpdateView(UpdateView):
     # Update a specific job listing
     model = Job
@@ -68,8 +85,19 @@ def applications(request):
     else:
         # If the user is an applicant, get all their applications
         applications = JobApplication.objects.filter(user=request.user)
-
     return render(request, 'applications.html', {'applications': applications})
+
+class ApplicationDetailView(DetailView):
+    # Show details of a specific application
+    model = JobApplication
+    template_name = 'application_detail.html'
+    context_object_name = 'application' 
+
+class ApplicationWithdrawView(DeleteView):
+    # Withdraw a specific application
+    model = JobApplication
+    template_name = 'withdraw_application.html'
+    success_url = reverse_lazy('applications')
 
 @login_required
 def job_apply(request, pk):
@@ -82,7 +110,7 @@ def job_apply(request, pk):
             job_application.user = request.user
             job_application.job = job
             job_application.save()
-            return redirect('job_detail', pk=job.pk)
+            return redirect('applications')
     else:
         form = JobApplicationForm()
     return render(request, 'job_apply.html', {'form': form, 'job': job, 'user': request.user})
