@@ -54,6 +54,12 @@
                       {% endif %}  
                   </ul>
               </div>
+              {% if user.is_authenticated %}
+              <span class="navbar-text">
+                  Welcome Back To Your {{ user.usertype.get_user_type_display}} Portal {{ user.first_name }}!
+              </span>
+              {% endif %}
+      </div>
           </div>
       </nav>
   </header>
