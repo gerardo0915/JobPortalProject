@@ -5,24 +5,29 @@
 <div class="container mt-5">  
     <div class="w-75 mx-auto"> 
         <h2 class="mb-3">Applications</h2>
-    <ul class="list-group mt-3">
-        {% for application in applications %}
-        <li class="list-group-item list-group-item-action rounded shadow mb-3 small">
-            <a href="{% url 'application_detail' application.pk %}" class="text-decoration-none text-dark">
+        <ul class="list-group mt-3">
+            {% for application in applications %}
+            <li class="list-group-item list-group-item-action rounded shadow mb-3 small">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ application.user.first_name }} {{ application.user.last_name }} - {{ application.job.job_title }}</h5> 
-                    <small class="text-muted">View details &#8594;</small>
+                    <div>
+                        <a href="{% url 'withdraw_application' application.pk%}" class="btn btn-danger btn-sm">Withdraw</a>
+                    </div>
                 </div>
                 <p class="mb-1">{{ application.job.company_name }}</p>
                 <small>{{ application.job.location }}</small>
                 <p class="mb-1">Job Description: {{ application.job.description|truncatewords:10 }}</p> 
                 <p class="mb-1">Resume: {{ application.resume }}</p>   
-            </a>
-        </li>
-        {% empty %}
-            <p>No applications found.</p>
-        {% endfor %}
-    </ul>
+                <a href="{% url 'application_detail' application.pk %}" class="text-decoration-none text-dark d-block">
+                    <div class="d-flex w-100 justify-content-end"> 
+                        <small class="text-muted">View details &#8594;</small>
+                    </div> 
+                </a> 
+            </li>
+            {% empty %}
+                <p>No applications found.</p>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 {% endblock %}
