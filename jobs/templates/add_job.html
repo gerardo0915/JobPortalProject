@@ -12,7 +12,10 @@
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit" class="btn btn-primary btn-block">Add</button>
+                        <div class="d-flex justify-content-between mt-3">
+                            <a href="{% url 'employer_jobs' %}" class="btn btn-secondary">&larr; Back to Jobs</a>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
                     </form>
                 </div>
                 </div>

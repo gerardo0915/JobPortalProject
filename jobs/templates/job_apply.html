@@ -15,9 +15,12 @@
                    <form method="post" enctype="multipart/form-data">
                       {% csrf_token %}
                       {{ form.as_p }} 
-                      <button type="submit" class="btn btn-primary btn-block">Apply</button>
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{% url 'job_list' %}" class="btn btn-secondary">&larr; Back to Jobs</a>
+                        <button type="submit" class="btn btn-primary">Apply</button>
+                    </div>
                   </form>
-              </div>
+                 </div>
               </div>
           </div>
       </div>
