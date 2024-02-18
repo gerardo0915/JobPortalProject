@@ -23,6 +23,9 @@
             {% for job in jobs %}
             <li class="list-group-item list-group-item-action rounded shadow mb-3 small">
                 <a href="{% url 'job_detail' job.pk %}" class="text-decoration-none text-dark d-block">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ job.job_title }}</h5> 
+                    </div>
                     <p class="mb-1">{{ job.company_name }}</p>
                     <small>{{ job.location }}</small>
                     <p class="mb-1">{{ job.description|truncatewords:10 }}</p> 
