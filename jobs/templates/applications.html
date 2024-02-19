@@ -10,9 +10,12 @@
             <li class="list-group-item list-group-item-action rounded shadow mb-3 small">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ application.user.first_name }} {{ application.user.last_name }} - {{ application.job.job_title }}</h5> 
+                    {% if user.usertype.user_type == 'job_applicant'%}
+                    {% csrf_token %}
                     <div>
                         <a href="{% url 'withdraw_application' application.pk%}" class="btn btn-danger btn-sm">Withdraw</a>
                     </div>
+                    {% endif %}
                 </div>
                 <p class="mb-1">{{ application.job.company_name }}</p>
                 <small>{{ application.job.location }}</small>
